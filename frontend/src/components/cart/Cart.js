@@ -46,9 +46,7 @@ export default function Cart() {
                                             </div>
 
 
-                                            <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                                <p id="card_item_price">${item.price}</p>
-                                            </div>
+                                            
 
                                             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                 <div className="stockCounter d-inline">
@@ -58,7 +56,9 @@ export default function Cart() {
                                                     <span className="btn btn-primary plus" onClick={() => increaseQty(item)}>+</span>
                                                 </div>
                                             </div>
-
+                                            <div className="col-4 col-lg-2 mt-4 mt-lg-0">
+                                                <p id="card_item_price">${item.quantity * item.price}</p>
+                                            </div>
                                             <div className="col-4 col-lg-1 mt-4 mt-lg-0">
                                                 <i id="delete_cart_item" onClick={() => dispatch(removeItemFromCart(item.product))} className="fa fa-trash btn btn-danger"></i>
                                             </div>

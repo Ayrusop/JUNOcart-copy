@@ -14,8 +14,9 @@ export default function Register() {
     const [avatarPreview, setAvatarPreview] = useState("/images/default_avatar.png");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error, isAuthenticated } = useSelector(state => state.authState)
+    const { loader, error, isAuthenticated, } = useSelector(state => state.authState)
 
+    
     const onChange = (e) => {
         if(e.target.name === 'avatar') {
            const reader = new FileReader();
@@ -26,7 +27,6 @@ export default function Register() {
                 }
            }
 
-
            reader.readAsDataURL(e.target.files[0])
         }else{
             setUserData({...userData, [e.target.name]:e.target.value })
@@ -35,12 +35,14 @@ export default function Register() {
 
     const submitHandler = (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('name', userData.name)
         formData.append('email', userData.email)
         formData.append('password', userData.password)
         formData.append('avatar', avatar);
         dispatch(register(formData))
+      
     }
 
     useEffect(()=>{
@@ -58,10 +60,11 @@ export default function Register() {
         }
     },[error, isAuthenticated, dispatch, navigate])
 
+
     return (
         <div className="row wrapper">
             <div className="col-10 col-lg-5">
-            <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
+            <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data' name='theform'>  
                 <h1 className="mb-3">Register</h1>
 
             <div className="form-group">
@@ -89,6 +92,7 @@ export default function Register() {
                     type="password"
                     id="password_field"
                     className="form-control"
+                    
                   
                 />
                 </div>
@@ -124,7 +128,13 @@ export default function Register() {
                 id="register_button"
                 type="submit"
                 className="btn btn-block py-3"
-                disabled={loading}
+                disabled={
+                    userData.name.trim().length >=1
+                    && userData.email.trim().length >=1
+                    && userData.password.trim().length  >=6
+                    ? ""
+                    :"disabled"
+                }
                 >
                 REGISTER
                 </button>

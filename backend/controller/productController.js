@@ -32,14 +32,10 @@ exports.getProducts = catchAsyncError(async (req, res, next)=>{
 //Create Product - /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next)=>{
     let images = []
-    let BASE_URL = process.env.BACKEND_URL;
-    if(process.env.NODE_ENV === "production"){
-        BASE_URL = `${req.protocol}://${req.get('host')}`
-    }
     
     if(req.files.length > 0) {
         req.files.forEach( file => {
-            let url = `${BASE_URL}/uploads/product/${file.originalname}`;
+            let url = `${process.env.BACKEND_URL}/uploads/product/${file.originalname}`;
             images.push({ image: url })
         })
     }
@@ -79,14 +75,10 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     if(req.body.imagesCleared === 'false' ) {
         images = product.images;
     }
-    let BASE_URL = process.env.BACKEND_URL;
-    if(process.env.NODE_ENV === "production"){
-        BASE_URL = `${req.protocol}://${req.get('host')}`
-    }
-
+    
     if(req.files.length > 0) {
         req.files.forEach( file => {
-            let url = `${BASE_URL}/uploads/product/${file.originalname}`;
+            let url = `${process.env.BACKEND_URL}/uploads/product/${file.originalname}`;
             images.push({ image: url })
         })
     }
